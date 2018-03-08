@@ -5,6 +5,7 @@
  */
 package util;
 
+import interfaces.OptimizationValues;
 import java.util.Arrays;
 import java.util.Observable;
 import java.util.Random;
@@ -14,7 +15,7 @@ import javax.cache.Cache;
  *
  * @author leing
  */
-public class Particle extends Observable implements Runnable {
+public class Particle extends Observable implements Runnable, OptimizationValues {
     
     private Thread t = null;
     private volatile boolean running= false;
@@ -66,28 +67,25 @@ public class Particle extends Observable implements Runnable {
     private void reevaluateVelocity() {
         if(this.gBestThreadId != this.threadId) {
             double[] best = this.gPositions.get(this.gBestThreadId);
-            double length = 0;
             for(int i = 0; i < this.dimensions; i++) {
-                double tmpVal = best[i] - this.pPosition[i];
-                this.pVelocity[i] = tmpVal;
-                length = tmpVal * tmpVal;
-            }
-            length = Math.sqrt(length);
-            for(int i = 0; i < this.dimensions; i++) {
-                this.pVelocity[i] = this.pVelocity[i] / length;
+                double firstRandomValue = (2 / standardPSOPsi) * randomGen.nextDouble();
+                double secondRandomValue = (2 / standardPSOPsi) * randomGen.nextDouble();
+                pVelocity[i] = standardPSOBeta * pVelocity[i]
+                        + firstRandomValue * (pBestPosition[i] - pPosition[i])
+                        + secondRandomValue * (best[i] - pPosition[i]);
             }
         }
     }
     
     private void reevaluateBests() {
         double tmpBestValue = this.calculator.calculate(this.pPosition, this.dimensions);
-        if(tmpBestValue > this.pBestValue) {
+        if(tmpBestValue < this.pBestValue) {
             //System.out.println(tmpBestValue + " was BETTER than " + this.pBestValue);
             this.pBestValue = tmpBestValue;
             System.arraycopy(this.pPosition, 0, this.pBestPosition, 0, this.dimensions);
             this.gPositions.put(this.threadId, this.pBestPosition);
         }
-        if(tmpBestValue > this.calculator.calculate(this.gPositions.get(this.gBestThreadId), this.dimensions)) {
+        if(tmpBestValue < this.calculator.calculate(this.gPositions.get(this.gBestThreadId), this.dimensions)) {
             setChanged();
             notifyObservers(this.threadId);
             System.out.println(tmpBestValue + " was BETTER than everyone else;");

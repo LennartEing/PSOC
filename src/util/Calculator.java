@@ -19,11 +19,11 @@ public class Calculator implements FitnessFunction {
 
     @Override
     public double calculate(double[] position, int dimensions) {
-        double tmp_val = 0;
+        double tmpVal = 0;
         for(int i = 0; i < dimensions; i++) {
-            double tmp = position[i];
-            tmp_val += tmp*tmp;
+            double tmpPositionValue = position[i];
+            tmpVal += Math.pow(tmpPositionValue, 2) - 10 * Math.cos(2 * Math.PI * tmpPositionValue) + 10;
         }
-        return -tmp_val + 1;
+        return tmpVal;
     } 
 }

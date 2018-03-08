@@ -24,8 +24,8 @@ public class PSOC extends Thread {
      */
     public static void main(String[] args) {
         int amount = 20;
-        int dimensions = 2;
-        double bound = 10000;
+        int dimensions = 30;
+        double bound = 5.12;
         double[][] boundaries = new double[dimensions][2];
         for(int i = 0; i < dimensions; i++) {
             boundaries[i][0] = -bound;
@@ -41,11 +41,11 @@ public class PSOC extends Thread {
             container.addParticle(particle);
         }
         container.start();
-        try {
+        /*try {
             PSOC.sleep(10000);
         } catch(Exception e) {
             System.out.println("This");
         }
-        container.stop();
+        container.stop();*/
     }
 }
