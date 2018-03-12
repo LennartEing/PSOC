@@ -26,26 +26,21 @@ public class PSOC extends Thread {
         int amount = 20;
         int dimensions = 30;
         double bound = 5.12;
-        double[][] boundaries = new double[dimensions][2];
-        for(int i = 0; i < dimensions; i++) {
-            boundaries[i][0] = -bound;
-            boundaries[i][1] = bound;
-        }
         CacheManager cacheManager = Caching.getCachingProvider().getCacheManager();
         MutableConfiguration<Long, double[]> config =
                 new MutableConfiguration<>();
         Cache<Long, double[]> myCache = cacheManager.createCache("myCache", config);
         ParticleContainer container = ParticleContainer.instance();
         for(int i = 0; i < amount; i++) {
-            Particle particle = new Particle(myCache, dimensions, boundaries);
+            Particle particle = new Particle(myCache, dimensions, bound);
             container.addParticle(particle);
         }
         container.start();
-        /*try {
+        try {
             PSOC.sleep(10000);
-        } catch(Exception e) {
-            System.out.println("This");
+        } catch(InterruptedException e) {
+            System.out.println("Unable to make mainprocess go to sleep. Teenagers, huh?");
         }
-        container.stop();*/
+        container.stop();
     }
 }

@@ -8,8 +8,13 @@ package interfaces;
 /**
  *
  * @author leing
- */
+ * */
 public interface OptimizationValues {
+    
+    /*
+    Values taken from this link: https://link.springer.com/referenceworkentry/10.1007%2F978-0-387-30164-8_630
+    and this Paper: http://ieeexplore.ieee.org/document/985692/#full-text-section
+    */
     
     double standardPSOPsi = 2.9922;
     double standardPSOBeta = 0.7298;

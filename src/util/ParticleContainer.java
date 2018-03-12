@@ -77,5 +77,4 @@ public class ParticleContainer implements Observer {
             particle.setGBestThreadId((long) arg);
         }
     }
-    
 }

@@ -3,29 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package util;
+package benchmarkfunctions;
 
 import abstracts.FitnessFunction;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  *
  * @author leing
  */
-public class Calculator extends FitnessFunction {
+public class RosenbrockFunction extends FitnessFunction {
 
-    public Calculator(double boundValue) {
+    public RosenbrockFunction(double boundValue) {
         super(boundValue);
     }
 
     @Override
     public double calculate(double[] position, int dimensions) {
         double tmpVal = 0;
-        for(int i = 0; i < dimensions; i++) {
-            double tmpPositionValue = position[i];
-            tmpVal += Math.pow(tmpPositionValue, 2) - 10 * Math.cos(2 * Math.PI * tmpPositionValue) + 10;
+        for(int i= 0; i < dimensions - 1; i++) {
+            double tmpPosValue = position[i];
+            tmpVal += 100 * Math.pow(position[i + 1] - Math.pow(tmpPosValue, 2), 2)
+                    + Math.pow(tmpPosValue - 1, 2);
         }
         return tmpVal;
-    } 
+    }
+    
 }

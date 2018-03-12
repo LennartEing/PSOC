@@ -5,6 +5,7 @@
  */
 package util;
 
+import abstracts.FitnessFunction;
 import interfaces.OptimizationValues;
 import java.util.Arrays;
 import java.util.Observable;
@@ -14,13 +15,15 @@ import javax.cache.Cache;
 /**
  *
  * @author leing
+ * @param <T> Class Type of used FitnessFunction
  */
-public class Particle extends Observable implements Runnable, OptimizationValues {
+public class Particle <T extends FitnessFunction> extends Observable implements Runnable, OptimizationValues {
     
     private Thread t = null;
     private volatile boolean running= false;
     private final Random randomGen;
     private final long threadId;
+    private int iterations = 0;
     
     private final int dimensions;
     
@@ -29,22 +32,22 @@ public class Particle extends Observable implements Runnable, OptimizationValues
     private double[] pBestPosition;
     private double pBestValue;
     
-    private final Calculator calculator;
+    private final T calculator;
     
     private final Cache<Long, double[]> gPositions;
     private long gBestThreadId;
     
-    public Particle(Cache<Long, double[]> cache, int dimensions, double[][] boundaries) {
+    public Particle(Cache<Long, double[]> cache, int dimensions, double boundValue) {
         this.dimensions = dimensions;
         this.gPositions = cache;
         this.randomGen = new Random();
         this.threadId = Math.abs(this.randomGen.nextLong());
         this.gBestThreadId = this.threadId;
-        this.calculator = new Calculator();
+        this.calculator = (T)new Calculator(boundValue);
         this.pPosition = new double[dimensions];
         this.pVelocity = new double[dimensions];
         this.pBestPosition = new double[dimensions];
-        this.initialize(dimensions, boundaries);
+        this.initialize(dimensions, boundValue);
     }
     
     public void setGBestThreadId(long threadId) {
@@ -99,6 +102,7 @@ public class Particle extends Observable implements Runnable, OptimizationValues
             this.move();
             this.reevaluateVelocity();
             this.reevaluateBests();
+            this.iterations += 1;
         }
     }
 
@@ -116,10 +120,10 @@ public class Particle extends Observable implements Runnable, OptimizationValues
         this.running = false;
     }
 
-    private void initialize(int dimensions, double[][] boundaries) {
+    private void initialize(int dimensions, double boundValue) {
         for(int i = 0; i < dimensions; i++) {
-            double min = boundaries[i][0];
-            double max = boundaries[i][1];
+            double min = -boundValue;
+            double max = boundValue;
             double randomCoord = min + this.randomGen.nextDouble() * (max - min);
             this.pPosition[i] = randomCoord;
         }
