@@ -15,9 +15,8 @@ import javax.cache.Cache;
 /**
  *
  * @author leing
- * @param <T> Class Type of used FitnessFunction
  */
-public class Particle <T extends FitnessFunction> extends Observable implements Runnable, OptimizationValues {
+public class Particle extends Observable implements Runnable, OptimizationValues {
     
     private Thread t = null;
     private volatile boolean running= false;
@@ -32,18 +31,18 @@ public class Particle <T extends FitnessFunction> extends Observable implements 
     private double[] pBestPosition;
     private double pBestValue;
     
-    private final T calculator;
+    private final Calculator calculator;
     
     private final Cache<Long, double[]> gPositions;
     private long gBestThreadId;
     
-    public Particle(Cache<Long, double[]> cache, int dimensions, double boundValue) {
+    public Particle(Cache<Long, double[]> cache, int dimensions, Calculator calculator, double boundValue) {
         this.dimensions = dimensions;
         this.gPositions = cache;
         this.randomGen = new Random();
         this.threadId = Math.abs(this.randomGen.nextLong());
         this.gBestThreadId = this.threadId;
-        this.calculator = (T)new Calculator(boundValue);
+        this.calculator = calculator;
         this.pPosition = new double[dimensions];
         this.pVelocity = new double[dimensions];
         this.pBestPosition = new double[dimensions];
@@ -81,14 +80,14 @@ public class Particle <T extends FitnessFunction> extends Observable implements 
     }
     
     private void reevaluateBests() {
-        double tmpBestValue = this.calculator.calculate(this.pPosition, this.dimensions);
+        double tmpBestValue = this.calculator.calculate(this.pPosition);
         if(tmpBestValue < this.pBestValue) {
             //System.out.println(tmpBestValue + " was BETTER than " + this.pBestValue);
             this.pBestValue = tmpBestValue;
             System.arraycopy(this.pPosition, 0, this.pBestPosition, 0, this.dimensions);
             this.gPositions.put(this.threadId, this.pBestPosition);
         }
-        if(tmpBestValue < this.calculator.calculate(this.gPositions.get(this.gBestThreadId), this.dimensions)) {
+        if(tmpBestValue < this.calculator.calculate(this.gPositions.get(this.gBestThreadId))) {
             setChanged();
             notifyObservers(this.threadId);
             System.out.println(tmpBestValue + " was BETTER than everyone else;");
@@ -131,7 +130,7 @@ public class Particle <T extends FitnessFunction> extends Observable implements 
             this.pVelocity[i] =  this.randomGen.nextDouble();
         }
         System.arraycopy(this.pPosition, 0, this.pBestPosition, 0, dimensions);
-        this.pBestValue = this.calculator.calculate(this.pPosition, this.dimensions);
+        this.pBestValue = this.calculator.calculate(this.pPosition);
         this.gPositions.put(this.threadId, this.pBestPosition);
         setChanged();
         notifyObservers(this.threadId);

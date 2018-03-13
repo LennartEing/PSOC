@@ -18,9 +18,9 @@ public class RastriginFunction extends FitnessFunction {
     }
     
     @Override
-    public double calculate(double[] position, int dimensions) {
+    public double calculate(double[] position) {
         double tmpVal = 0;
-        for(int i = 0; i < dimensions; i++) {
+        for(int i = 0; i < position.length; i++) {
             double tmpPosValue = position[i];
             tmpVal += Math.pow(tmpPosValue, 2) - 10 * Math.cos(2 * Math.PI * tmpPosValue) + 10;
         }

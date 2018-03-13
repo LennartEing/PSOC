@@ -11,21 +11,21 @@ import abstracts.FitnessFunction;
  *
  * @author leing
  */
-public class RosenbrockFunction extends FitnessFunction {
+public class StyblinskiTangFunction extends FitnessFunction {
 
-    public RosenbrockFunction(double boundValue) {
+    public StyblinskiTangFunction(double boundValue) {
         super(boundValue);
     }
 
     @Override
     public double calculate(double[] position) {
         double tmpVal = 0;
-        for(int i= 0; i < position.length - 1; i++) {
-            double tmpPosValue = position[i];
-            tmpVal += 100 * Math.pow(position[i + 1] - Math.pow(tmpPosValue, 2), 2)
-                    + Math.pow(tmpPosValue - 1, 2);
+        double posVal;
+        for(int i = 0; i < position.length; i++) {
+            posVal = position[i];
+            tmpVal += Math.pow(posVal, 4) - 16 * Math.pow(posVal, 2) + 5 * posVal;            
         }
-        return tmpVal;
+        return tmpVal / 2;
     }
     
 }

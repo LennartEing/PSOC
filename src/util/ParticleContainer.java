@@ -1,11 +1,12 @@
 package util;
 
 
+import abstracts.DifficultyFunction;
+import abstracts.FitnessFunction;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-import util.Particle;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,8 +17,10 @@ import util.Particle;
 /**
  *
  * @author leing
+ * @param <T>
+ * @param <K>
  */
-public class ParticleContainer implements Observer {
+public class ParticleContainer <T extends FitnessFunction, K extends DifficultyFunction> implements Observer {
     
     private ArrayList<Particle> particles = new ArrayList();
     private static ParticleContainer instance = null;

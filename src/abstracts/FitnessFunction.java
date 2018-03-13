@@ -13,17 +13,19 @@ import java.util.ArrayList;
  */
 public abstract class FitnessFunction {
     
-    double boundValue;
+    protected double boundValue;
+    int dimensions;
     
     public FitnessFunction(double boundValue) {    
         this.setBoundValue(boundValue);
     }
     
-    abstract public double calculate(double[] position, int dimensions);
+    abstract public double calculate(double[] position);
     public final void setBoundValue(double boundValue) {
-        this.boundValue = boundValue;
+        this.boundValue = Math.abs(boundValue);
     }
     public final double getBoundValue() {
         return this.boundValue;
     }
+    
 }

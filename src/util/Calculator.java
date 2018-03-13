@@ -5,27 +5,55 @@
  */
 package util;
 
+import abstracts.DifficultyFunction;
 import abstracts.FitnessFunction;
-import java.util.ArrayList;
-import java.util.Random;
-
 /**
  *
  * @author leing
+ * @param <T>
+ * @param <K>
  */
-public class Calculator extends FitnessFunction {
+public class Calculator <T extends FitnessFunction, K extends DifficultyFunction>{
 
-    public Calculator(double boundValue) {
-        super(boundValue);
+    private T fitnessFunction;
+    private K difficultyFunction;
+    private int timeFactor = 100;
+    
+    public final void setFitnessFunction(T fitnessFunction) {
+        this.fitnessFunction = fitnessFunction;
     }
-
-    @Override
-    public double calculate(double[] position, int dimensions) {
-        double tmpVal = 0;
-        for(int i = 0; i < dimensions; i++) {
-            double tmpPositionValue = position[i];
-            tmpVal += Math.pow(tmpPositionValue, 2) - 10 * Math.cos(2 * Math.PI * tmpPositionValue) + 10;
-        }
-        return tmpVal;
+    public final T getFitnessFunction() {
+        return this.fitnessFunction;
+    }
+    
+    public final void setDifficultyFunction(K difficultyFunction) {
+        this.difficultyFunction = difficultyFunction;
+    }
+    public final K getDifficultyFunction() {
+        return this.difficultyFunction;
+    }
+    
+    public final void setTimeFactor(int timeFactor) {
+        this.timeFactor = timeFactor;
+    }
+    public final int getTimeFactor() {
+        return this.timeFactor;
+    }
+    
+    public Calculator(T fitnessFunction, K difficultyFunction, int timeFactor) {
+        setFitnessFunction(fitnessFunction);
+        setDifficultyFunction(difficultyFunction);
+        setTimeFactor(timeFactor);
+    }
+    
+    public double calculate(double[] position) {
+        double positionalDifficulty = this.difficultyFunction.calculate(position);
+        double result;
+        int i = 0;
+        do {
+            result = this.fitnessFunction.calculate(position);
+            i++;
+        } while(i < positionalDifficulty * this.timeFactor);
+        return result;
     } 
 }

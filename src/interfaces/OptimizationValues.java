@@ -19,4 +19,10 @@ public interface OptimizationValues {
     double standardPSOPsi = 2.9922;
     double standardPSOBeta = 0.7298;
     
+    /*Values taken from this link: https://www.sfu.ca/~ssurjano/ackley.html */
+    
+    double standardAckleyA = 20;
+    double standardAckleyB = 0.2;
+    double standardAckleyC = 2 * Math.PI;
+    
 }
