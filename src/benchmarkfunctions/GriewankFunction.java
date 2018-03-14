@@ -21,13 +21,16 @@ public class GriewankFunction extends FitnessFunction {
     public double calculate(double[] position) {
         double firstTerm = 0;
         double secondTerm = 1;
+        double tmpPosValue;
         for(int i = 0; i < position.length; i++) {
-            firstTerm += Math.pow(position[i], 2);
-            secondTerm *= Math.cos(position[i]/Math.sqrt(i));
+            tmpPosValue = position[i];
+            firstTerm += Math.pow(tmpPosValue, 2);
+            secondTerm *= Math.cos(tmpPosValue/Math.sqrt(i+1));
         }
-        firstTerm = (1/4000) * firstTerm;
+        firstTerm = (1/4000.) * firstTerm;
         secondTerm = -secondTerm;
-        return firstTerm + secondTerm + 1;
+        firstTerm = firstTerm + secondTerm + 1;
+        return firstTerm;
     }
     
 }

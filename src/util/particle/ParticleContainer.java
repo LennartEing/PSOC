@@ -1,6 +1,7 @@
-package util;
+package util.particle;
 
 
+import util.particle.Particle;
 import abstracts.DifficultyFunction;
 import abstracts.FitnessFunction;
 import java.util.ArrayList;

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package util;
+package util.particle;
 
+import util.calc.Calculator;
 import abstracts.FitnessFunction;
 import interfaces.OptimizationValues;
 import java.util.Arrays;

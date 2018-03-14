@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package util;
+package util.calc;
 
+import util.calc.CalculatorConfiguration;
+import util.calc.Calculator;
 import abstracts.DifficultyFunction;
 import abstracts.FitnessFunction;
 import benchmarkfunctions.AckleyFunction;
@@ -26,7 +28,7 @@ import excep.MissingFunctionException;
  * @param <T>
  * @param <K>
  */
-public class CalculatorFactory <T extends FitnessFunction, K extends DifficultyFunction> {
+public final class CalculatorFactory <T extends FitnessFunction, K extends DifficultyFunction> {
     
     private CalculatorConfiguration config;
     
