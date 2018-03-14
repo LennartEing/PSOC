@@ -29,14 +29,14 @@ public class PSOC extends Thread {
         int amount = 20;
         int dimensions = 30;
         int timeFactor = 1;
-        double boundValue = 6000;
-        int testTime = 10000;
+        double boundValue = 2.048;
+        int testTime = 100000;
         CacheManager cacheManager = Caching.getCachingProvider().getCacheManager();
         MutableConfiguration<Long, double[]> config =
                 new MutableConfiguration<>();
         Cache<Long, double[]> myCache = cacheManager.createCache("myCache", config);
         ParticleContainer container = ParticleContainer.instance();
-        CalculatorFactory calculatorFactory = new CalculatorFactory("rosenbrock", "flat", boundValue, timeFactor);
+        CalculatorFactory calculatorFactory = new CalculatorFactory("styblinskitang", "flat", boundValue, timeFactor);
         ParticleFactory particleFactory = new ParticleFactory(myCache, dimensions, calculatorFactory, boundValue);
         for(int i = 0; i < amount; i++) {
             try {

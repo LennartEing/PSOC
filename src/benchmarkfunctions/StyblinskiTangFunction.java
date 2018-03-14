@@ -25,7 +25,7 @@ public class StyblinskiTangFunction extends FitnessFunction {
             posVal = position[i];
             tmpVal += Math.pow(posVal, 4) - 16 * Math.pow(posVal, 2) + 5 * posVal;            
         }
-        return tmpVal / 2;
+        return tmpVal / 2 + 39.16599 * position.length;
     }
     
 }
