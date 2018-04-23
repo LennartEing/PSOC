@@ -13,9 +13,7 @@ import abstracts.FitnessFunction;
  */
 public class SphereFunction extends FitnessFunction {
 
-    public SphereFunction(double boundValue) {
-        super(boundValue);
-    }
+    public SphereFunction() {}
 
     @Override
     public double calculate(double[] position) {
@@ -24,6 +22,17 @@ public class SphereFunction extends FitnessFunction {
             tmpVal += Math.pow(position[i], 2);
         }
         return tmpVal;
+    }
+
+    @Override
+    public double distanceToGlobalMinimum(double[] position) {
+        double tmp = 0;
+        double tmp_val;
+        for(int i = 0; i < position.length; i++) {
+            tmp_val = position[i];
+            tmp = tmp_val * tmp_val;
+        }
+        return Math.sqrt(tmp);
     }
     
 }

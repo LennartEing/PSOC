@@ -18,12 +18,14 @@ public class ParticleConfiguration {
     private final int dimensions;
     private final CalculatorFactory calculatorFactory;
     private final double boundValue;
+    private final double precision;
     
-    public ParticleConfiguration(Cache<Long, double[]> cache, int dimensions, CalculatorFactory calculatorFactory, double boundValue) {
+    public ParticleConfiguration(Cache<Long, double[]> cache, int dimensions, CalculatorFactory calculatorFactory, double boundValue, double precision) {
         this.cache = cache;
         this.dimensions = dimensions;
         this.calculatorFactory = calculatorFactory;
         this.boundValue = boundValue;
+        this.precision = precision;
     }
     
     public Cache<Long, double[]> getCache() {
@@ -37,5 +39,8 @@ public class ParticleConfiguration {
     }
     public double getBoundValue() {
         return this.boundValue;
+    }
+    public double getPrecision() {
+        return this.precision;
     }
 }

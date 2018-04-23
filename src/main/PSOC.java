@@ -13,7 +13,7 @@ import javax.cache.configuration.MutableConfiguration;
 import util.calc.Calculator;
 import util.calc.CalculatorFactory;
 import util.particle.Particle;
-import util.particle.ParticleContainer;
+import util.particle.ParticlePool;
 import util.particle.ParticleFactory;
 
 /**
@@ -31,27 +31,27 @@ public class PSOC extends Thread {
         int timeFactor = 1;
         double boundValue = 2.048;
         int testTime = 100000;
+        double precision = 0.1;
         CacheManager cacheManager = Caching.getCachingProvider().getCacheManager();
         MutableConfiguration<Long, double[]> config =
                 new MutableConfiguration<>();
         Cache<Long, double[]> myCache = cacheManager.createCache("myCache", config);
-        ParticleContainer container = ParticleContainer.instance();
+        ParticlePool pool = new ParticlePool(5);
         CalculatorFactory calculatorFactory = new CalculatorFactory("styblinskitang", "flat", boundValue, timeFactor);
-        ParticleFactory particleFactory = new ParticleFactory(myCache, dimensions, calculatorFactory, boundValue);
+        ParticleFactory particleFactory = new ParticleFactory(myCache, dimensions, calculatorFactory, boundValue, precision);
         for(int i = 0; i < amount; i++) {
             try {
                 Particle particle = particleFactory.getParticle();
-                container.addParticle(particle);
+                pool.addParticle(particle);
             } catch(MissingFunctionException e) {
                 System.out.println("Unimplemented function used");
             }
         }
-        container.start();
+        pool.run();
         try {
             PSOC.sleep(testTime);
         } catch(InterruptedException e) {
             System.out.println("Unable to make mainprocess go to sleep. Teenagers, huh?");
         }
-        container.stop();
     }
 }

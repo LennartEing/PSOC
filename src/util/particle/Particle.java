@@ -19,12 +19,9 @@ import javax.cache.Cache;
  */
 public class Particle extends Observable implements Runnable, OptimizationValues {
     
-    private Thread t = null;
-    private volatile boolean running= false;
     private final Random randomGen;
     private final long threadId;
-    private int iterations = 0;
-    
+    private final double precision;
     private final int dimensions;
     
     private double[] pPosition;
@@ -37,7 +34,7 @@ public class Particle extends Observable implements Runnable, OptimizationValues
     private final Cache<Long, double[]> gPositions;
     private long gBestThreadId;
     
-    public Particle(Cache<Long, double[]> cache, int dimensions, Calculator calculator, double boundValue) {
+    public Particle(Cache<Long, double[]> cache, int dimensions, Calculator calculator, double boundValue, double precision) {
         this.dimensions = dimensions;
         this.gPositions = cache;
         this.randomGen = new Random();
@@ -47,6 +44,7 @@ public class Particle extends Observable implements Runnable, OptimizationValues
         this.pPosition = new double[dimensions];
         this.pVelocity = new double[dimensions];
         this.pBestPosition = new double[dimensions];
+        this.precision = precision;
         this.initialize(dimensions, boundValue);
     }
     
@@ -81,6 +79,10 @@ public class Particle extends Observable implements Runnable, OptimizationValues
     }
     
     private void reevaluateBests() {
+        if(this.calculator.distanceToGlobalMinimum(pPosition) < this.precision) {
+            setChanged();
+            notifyObservers(true);
+        }
         double tmpBestValue = this.calculator.calculate(this.pPosition);
         if(tmpBestValue < this.pBestValue) {
             //System.out.println(tmpBestValue + " was BETTER than " + this.pBestValue);
@@ -98,29 +100,12 @@ public class Particle extends Observable implements Runnable, OptimizationValues
     
     @Override
     public void run() {
-        while(running) {
-            this.move();
-            this.reevaluateVelocity();
-            this.reevaluateBests();
-            this.iterations += 1;
-        }
+        this.move();
+        this.reevaluateVelocity();
+        this.reevaluateBests();
     }
 
-    public void start() {
-        this.running = true;
-        if(this.t == null) {
-            this.t = new Thread(this, Long.toString(this.threadId));
-            this.t.start();
-        } else {
-            this.t.start();
-        }
-    }
-    
-    public void stop() {
-        this.running = false;
-    }
-
-    private void initialize(int dimensions, double boundValue) {
+   private void initialize(int dimensions, double boundValue) {
         for(int i = 0; i < dimensions; i++) {
             double min = -boundValue;
             double max = boundValue;

@@ -13,10 +13,8 @@ import abstracts.FitnessFunction;
  */
 public class RosenbrockFunction extends FitnessFunction {
 
-    public RosenbrockFunction(double boundValue) {
-        super(boundValue);
-    }
-
+    public RosenbrockFunction() {}
+    
     @Override
     public double calculate(double[] position) {
         double tmpVal = 0;
@@ -26,6 +24,18 @@ public class RosenbrockFunction extends FitnessFunction {
                     + Math.pow(tmpPosValue - 1, 2);
         }
         return tmpVal;
+    }
+
+    @Override
+    public double distanceToGlobalMinimum(double[] position) {
+        double tmp = 0;
+        double tmp_val;
+        for(int i = 0; i < position.length; i++) {
+            tmp_val = position[i] - 1.;
+            tmp = tmp_val * tmp_val;
+        }
+        return Math.sqrt(tmp);
+        
     }
     
 }

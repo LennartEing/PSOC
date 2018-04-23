@@ -5,27 +5,15 @@
  */
 package abstracts;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author leing
  */
 public abstract class FitnessFunction {
     
-    protected double boundValue;
-    int dimensions;
+    public FitnessFunction(){}
     
-    public FitnessFunction(double boundValue) {    
-        this.setBoundValue(boundValue);
-    }
-    
+    abstract public double distanceToGlobalMinimum(double[] position);
     abstract public double calculate(double[] position);
-    public final void setBoundValue(double boundValue) {
-        this.boundValue = Math.abs(boundValue);
-    }
-    public final double getBoundValue() {
-        return this.boundValue;
-    }
     
 }

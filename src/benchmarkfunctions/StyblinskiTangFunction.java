@@ -13,9 +13,7 @@ import abstracts.FitnessFunction;
  */
 public class StyblinskiTangFunction extends FitnessFunction {
 
-    public StyblinskiTangFunction(double boundValue) {
-        super(boundValue);
-    }
+    public StyblinskiTangFunction() {}
 
     @Override
     public double calculate(double[] position) {
@@ -26,6 +24,17 @@ public class StyblinskiTangFunction extends FitnessFunction {
             tmpVal += Math.pow(posVal, 4) - 16 * Math.pow(posVal, 2) + 5 * posVal;            
         }
         return tmpVal / 2 + 39.16599 * position.length;
+    }
+
+    @Override
+    public double distanceToGlobalMinimum(double[] position) {
+        double tmp = 0;
+        double tmp_val;
+        for(int i = 0; i < position.length; i++) {
+            tmp_val = position[i] + 2.903534;
+            tmp = tmp_val * tmp_val;
+        }
+        return Math.sqrt(tmp);
     }
     
 }

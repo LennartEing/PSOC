@@ -18,16 +18,16 @@ public final class ParticleFactory {
     
     private ParticleConfiguration config;
     
-    public ParticleFactory(Cache<Long, double[]> cache, int dimensions, CalculatorFactory calculatorFactory, double boundValue) {
-        this.configure(cache, dimensions, calculatorFactory, boundValue);
+    public ParticleFactory(Cache<Long, double[]> cache, int dimensions, CalculatorFactory calculatorFactory, double boundValue, double precision) {
+        this.configure(cache, dimensions, calculatorFactory, boundValue, precision);
     }
     
-    public void configure(Cache<Long, double[]> cache, int dimensions, CalculatorFactory calculator, double boundValue) {
-        config = new ParticleConfiguration(cache, dimensions, calculator, boundValue);
+    public void configure(Cache<Long, double[]> cache, int dimensions, CalculatorFactory calculator, double boundValue, double precision) {
+        config = new ParticleConfiguration(cache, dimensions, calculator, boundValue, precision);
     }
  
     public Particle getParticle() throws MissingFunctionException {
         Calculator calculator = this.config.getCalculatorFactory().getCalculator();
-        return new Particle(this.config.getCache(), this.config.getDimensions(), calculator, this.config.getBoundValue());
+        return new Particle(this.config.getCache(), this.config.getDimensions(), calculator, this.config.getBoundValue(), this.config.getPrecision());
     }
 }

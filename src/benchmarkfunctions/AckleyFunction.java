@@ -13,10 +13,8 @@ import interfaces.OptimizationValues;
  * @author leing
  */
 public class AckleyFunction extends FitnessFunction implements OptimizationValues {
-
-    public AckleyFunction(double boundValue) {
-        super(boundValue);
-    }
+    
+    public AckleyFunction() {}
 
     @Override
     public double calculate(double[] position) {
@@ -37,5 +35,16 @@ public class AckleyFunction extends FitnessFunction implements OptimizationValue
         firstTerm = firstTerm + secondTerm + standardAckleyA + 1;
         return firstTerm;
     }
-    
+
+    @Override
+    public double distanceToGlobalMinimum(double[] position) {
+        double tmp = 0;
+        double tmp_val;
+        for(int i = 0; i < position.length; i++) {
+            tmp_val = position[i];
+            tmp = tmp_val * tmp_val;
+        }
+        return Math.sqrt(tmp);
+        
+    }
 }

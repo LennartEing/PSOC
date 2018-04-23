@@ -13,9 +13,7 @@ import abstracts.FitnessFunction;
  */
 public class GriewankFunction extends FitnessFunction {
 
-    public GriewankFunction(double boundValue) {
-        super(boundValue);
-    }
+    public GriewankFunction() {}
 
     @Override
     public double calculate(double[] position) {
@@ -32,5 +30,16 @@ public class GriewankFunction extends FitnessFunction {
         firstTerm = firstTerm + secondTerm + 1;
         return firstTerm;
     }
-    
+
+    @Override
+    public double distanceToGlobalMinimum(double[] position) {
+        double tmp = 0;
+        double tmp_val;
+        for(int i = 0; i < position.length; i++) {
+            tmp_val = position[i];
+            tmp = tmp_val * tmp_val;
+        }
+        return Math.sqrt(tmp);
+        
+    }
 }

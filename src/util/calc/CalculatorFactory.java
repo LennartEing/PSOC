@@ -46,12 +46,12 @@ public final class CalculatorFactory <T extends FitnessFunction, K extends Diffi
         Calculator calculator = null;
         try {
             //Finding the correct Fitnessfunction
-            if(this.config.getFitnessName().equals("ackley")) fitnessFunction = (T)new AckleyFunction(this.config.getBoundValue());
-            if(this.config.getFitnessName().equals("griewank")) fitnessFunction = (T)new GriewankFunction(this.config.getBoundValue());
-            if(this.config.getFitnessName().equals("rastrigin")) fitnessFunction = (T)new RastriginFunction(this.config.getBoundValue());
-            if(this.config.getFitnessName().equals("rosenbrock")) fitnessFunction = (T)new RosenbrockFunction(this.config.getBoundValue());
-            if(this.config.getFitnessName().equals("sphere")) fitnessFunction = (T)new SphereFunction(this.config.getBoundValue());
-            if(this.config.getFitnessName().equals("styblinskitang")) fitnessFunction = (T)new StyblinskiTangFunction(this.config.getBoundValue());
+            if(this.config.getFitnessName().equals("ackley")) fitnessFunction = (T)new AckleyFunction();
+            if(this.config.getFitnessName().equals("griewank")) fitnessFunction = (T)new GriewankFunction();
+            if(this.config.getFitnessName().equals("rastrigin")) fitnessFunction = (T)new RastriginFunction();
+            if(this.config.getFitnessName().equals("rosenbrock")) fitnessFunction = (T)new RosenbrockFunction();
+            if(this.config.getFitnessName().equals("sphere")) fitnessFunction = (T)new SphereFunction();
+            if(this.config.getFitnessName().equals("styblinskitang")) fitnessFunction = (T)new StyblinskiTangFunction();
             //Finding the correct Difficulty
             if(this.config.getDifficultyName().equals("gaussian")) difficultyFunction = (K) new GaussianFunction(this.config.getBoundValue());
             if(this.config.getDifficultyName().equals("parable")) difficultyFunction = (K) new ParableFunction(this.config.getBoundValue());

@@ -55,5 +55,9 @@ public class Calculator <T extends FitnessFunction, K extends DifficultyFunction
             i++;
         } while(i < positionalDifficulty * this.timeFactor);
         return result;
-    } 
+    }
+    
+    public double distanceToGlobalMinimum(double[] position) {
+        return this.fitnessFunction.distanceToGlobalMinimum(position);
+    }
 }
