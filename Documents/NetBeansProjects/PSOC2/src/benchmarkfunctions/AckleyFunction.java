@@ -1,0 +1,52 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package benchmarkfunctions;
+
+import abstracts.BenchmarkFunction;
+import interfaces.OptimizationValues;
+
+/**
+ *
+ * @author leing
+ */
+public class AckleyFunction extends BenchmarkFunction implements OptimizationValues {
+    
+    public AckleyFunction() {
+        this.boundValue = 32.768;
+    }
+
+    @Override
+    public double calculate(double[] position) {
+        double firstTerm = 0;
+        double secondTerm = 0;
+        double tmpPosValue;
+        for(int i = 0; i < position.length; i++) {
+            tmpPosValue = position[i];
+            firstTerm += Math.pow(tmpPosValue, 2);
+            secondTerm += Math.cos(standardAckleyC * tmpPosValue);
+        }
+        firstTerm = (1/(double)position.length) * firstTerm;
+        firstTerm = Math.sqrt(firstTerm);
+        firstTerm = -standardAckleyB * firstTerm;
+        firstTerm = -standardAckleyA * Math.exp(firstTerm);
+        secondTerm = (1/position.length) * secondTerm;
+        secondTerm = -Math.exp(secondTerm);
+        firstTerm = firstTerm + secondTerm + standardAckleyA + 1;
+        return firstTerm;
+    }
+
+    @Override
+    public double distanceToGlobalMinimum(double[] position) {
+        double tmp = 0;
+        double tmp_val;
+        for(int i = 0; i < position.length; i++) {
+            tmp_val = position[i];
+            tmp = tmp_val * tmp_val;
+        }
+        return Math.sqrt(tmp);
+        
+    }
+}
