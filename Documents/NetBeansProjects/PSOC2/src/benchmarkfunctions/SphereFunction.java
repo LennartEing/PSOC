@@ -14,7 +14,7 @@ import abstracts.BenchmarkFunction;
 public class SphereFunction extends BenchmarkFunction {
 
     public SphereFunction() {
-        this.boundValue = 5.12;
+        this.boundValue = 1000;
     }
 
     @Override

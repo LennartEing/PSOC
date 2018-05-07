@@ -5,7 +5,7 @@
  */
 package psoc2;
 
-import util.Calculator;
+import util.ParticlePool;
 
 /**
  *
@@ -17,8 +17,16 @@ public class PSOC2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Calculator calc = new Calculator();
-        calc = calc.getCalculator("rastrigin", "flat", 100);
+        ParticlePool.setBenchMarkFunctionName("sphere");
+        ParticlePool.setDifficultyFunctionName("flat");
+        ParticlePool.setDifficultyStretchFactor(1);
+        ParticlePool.setNumberOfParticles(32);
+        ParticlePool.setPoolSize(8);
+        ParticlePool.setSystemDimension(2);
+        ParticlePool.setSystemPrecision(0.01);
+        ParticlePool.setup();
+        ParticlePool.instantiate();
+        ParticlePool.execute();
     }
     
 }
